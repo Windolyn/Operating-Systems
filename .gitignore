@@ -5,7 +5,5 @@
 *.out
 *.a
 *.so
-# build dir
 build/
-# editor
 .vscode/
