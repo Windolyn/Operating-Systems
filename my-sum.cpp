@@ -177,7 +177,7 @@ int main(int argc, char *argv[]) {
     long long *answers = (*current == 0) ? A : B;    
 
         for(int i = 0; i < n; i++){
-            fprintf(out, "%lld ", answers[i]);    //write to the utputFile
+            fprintf(out, "%lld \n ", answers[i]);    //write to the utputFile
 
         }
 

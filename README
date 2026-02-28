@@ -6,12 +6,24 @@ Sara Ye xxy210000
 INSTRUCTIONS FOR RUNNING PROGRAM
 
 
+run in terminal 
+for general running, this will run with input size 5 workers 3, so if you want more, then run below
+make
+make run 
+
+
+for specififying input and workers, run in terminal
+make
+make run n=(replace with a number) m=(replace with a number) input=input.txt output=output.dat
+
+
+
 -------------------------------------------------
 gcc my-sum.cpp -o my-sum -lm
 ./my-sum n m input.dat output.dat
 -------------------------------------------------
 
-
+put n > m and > 0 in place of n and m
 
 
 
