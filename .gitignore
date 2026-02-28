@@ -1,0 +1,11 @@
+# C++ build artifacts
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+# build dir
+build/
+# editor
+.vscode/
