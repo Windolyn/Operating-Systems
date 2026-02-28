@@ -1,5 +1,6 @@
 #include <stdio.h>  //for i/o functions
 #include <stdlib.h> //for atoi, exit, etc
+#include <sys/types.h> //for pid_t
 #include <unistd.h> //for fork()
 #include <sys/ipc.h> //for shared memory
 #include <sys/shm.h> //for shared memory
@@ -32,6 +33,7 @@ void barrier(int *flags, int w, int m, int phase){
                 break;
             }
         }
+        if(!finished) usleep(10); //sleep for a bit to avoid busy waiting
     } while (!finished);
     
 }
@@ -47,8 +49,8 @@ int main(int argc, char *argv[]) {
 
 
     //converitng arguments from strings to integers
-    int n = atoi(argv[1]); //# elements
-    int m = atoi(argv[2]); //# workers
+    long long n = atoi(argv[1]); //# elements
+    long long m = atoi(argv[2]); //# workers
 
     if(n <= 0 || m <= 0 || m > n){ //sanity check
         printf("Invalid arguments, you must have a positive n and m, and n > m\n");
@@ -67,20 +69,20 @@ int main(int argc, char *argv[]) {
 
     }
 
-    int shmid = shmget(IPC_PRIVATE, (2*n + 1 + m) * sizeof(int), IPC_CREAT | 0666);  //craete shared memory segment
+    int shmid = shmget(IPC_PRIVATE, (2*n + 1 + m) * sizeof(long long), IPC_CREAT | 0666);  //craete shared memory segment
     //holds two buffers size n, selector for current buffer, and m flags barrier flags
-    int *shared = (int *) shmat(shmid, NULL, 0); //give pointer to this shared memory
+    long long *shared = (long long *) shmat(shmid, NULL, 0); //give pointer to this shared memory
 
-    int *A = shared;  //worker 1
-    int *B = shared + n; //worker 2
-    int *current = shared + 2*n; //current buffer selector
-    int *flags = shared + 2*n + 1; //barrier flags
+    long long *A = shared;  //worker 1
+    long long *B = shared + n; //worker 2
+    long long *current = shared + 2*n; //current buffer selector
+    int *flags = (int *)(shared + 2*n + 1); //barrier flags
     *current = 0; //current buffer to be 0, so starts at buffer a
 
     for(int i = 0; i < m; i++) flags[i] = 0; //initializing flags to be 0
 
     for (int i = 0; i < n; i++){
-        if(fscanf(in, "%d", &A[i]) != 1){ //read in input file, if not enough elements, print and exit
+        if(fscanf(in, "%lld\n", &A[i]) != 1){ //read in input file, if not enough elements, print and exit
             printf("input file does not contain enough elements\n");
             fclose(in);
             return 1;
@@ -108,8 +110,8 @@ int main(int argc, char *argv[]) {
             //looping through the rounds, each round halves w & doubles step size
             for(int p = 0; p < rounds; p++){
                 int step = 1 << p;  //how far apart elements to the sum are, doubles every round
-                int *source = (*current == 0) ? A : B;   //source buffer in memory
-                int *destination = (*current == 0) ? B : A;   //destinartion buffer in memory
+                long long *source = (*current == 0) ? A : B;   //source buffer in memory
+                long long *destination = (*current == 0) ? B : A;   //destinartion buffer in memory
 
 
 
@@ -154,10 +156,10 @@ int main(int argc, char *argv[]) {
 
     //output file
     FILE *out = fopen(outputFile, "w");   //open outputFile
-    int *answers = (*current == 0) ? A : B;    //pointer to final answer buffer
+    long long *answers = (*current == 0) ? A : B;    //pointer to final answer buffer
 
         for(int i = 0; i < n; i++){
-            fprintf(out, "%d ", answers[i]);    //write to the utputFile
+            fprintf(out, "%lld ", answers[i]);    //write to the utputFile
 
         }
         fprintf(out, "\n");   
