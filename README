@@ -6,6 +6,18 @@ Sara Ye xxy210000
 INSTRUCTIONS FOR RUNNING PROGRAM
 
 
+-------------------------------------------------
+gcc my-sum.cpp -o my-sum -lm
+./my-sum n m input.dat output.dat
+-------------------------------------------------
+
+
+
+
+
+---------------------------
+More details ( can skip)
+
 TO RUN IN SCHOOL SERVER
 ssh netid@cs1.utdallas.edu
 then enter password...
@@ -17,10 +29,10 @@ then paste in code from vscode
 make sure their is an input file as well! input.dat is what was given
 
 then in terminal, to run program, run
-
+-------------------------------------------------
 gcc my-sum.cpp -o my-sum -lm
 ./my-sum n m input.dat output.dat
-
+-------------------------------------------------
 for the command above, make sure that you replace n and m with numbers.
 n is for the number in your input file
 m is for the number of worker
