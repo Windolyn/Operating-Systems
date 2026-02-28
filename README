@@ -1,12 +1,9 @@
-Team Members
+Team Members----------------
 Gwendolyn Khou gmk220003
-Sarah Ye ... [To be filled in]
+Sara Ye xxy210000
+----------------------------
 
 INSTRUCTIONS FOR RUNNING PROGRAM
-
-
-
-
 
 
 TO RUN IN SCHOOL SERVER
@@ -17,11 +14,7 @@ then enter password...
 nano my-sum.cpp 
 then paste in code from vscode
 
-make sure their is an input file as well! input.dat is what was given, but the command below that generates 
-data creates an input.txt, not .dat
-
-this generates 1,000,000 input file, run in terminal
-shuf -i 1-1000000 -n 1000000 > input.txt
+make sure their is an input file as well! input.dat is what was given
 
 then in terminal, to run program, run
 
@@ -36,7 +29,7 @@ also, make sure that the input.dat matches the name of the input file that you h
 
 baam : output data should run
 
-
+------------------------------------------------------------------------------------------------------------------
 to check program
 this will print out first 10 of both files
 paste <(head -n 10 input.txt | tr ' ' '\n') <(head -n 10 output.dat) | awk '{print "Input:", $1, "Output:", $2}'
